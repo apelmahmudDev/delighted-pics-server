@@ -24,12 +24,12 @@ client.connect((err) => {
 	const serviceCollection = client.db('delighted-pics').collection('services');
 	const orderCollection = client.db('delighted-pics').collection('orders');
 
-	// add all services in mongoDB
-	app.post('/addServices', async (req, res) => {
+	// add single service at mongoDB
+	app.post('/addService', async (req, res) => {
 		try {
 			const data = await req.body;
-			const result = await serviceCollection.insertMany(data);
-			res.send('Successfully added');
+			const result = await serviceCollection.insertOne(data);
+			res.send(result.acknowledged);
 		} catch (error) {
 			console.log('err', error);
 		}
@@ -72,6 +72,15 @@ client.connect((err) => {
 		}
 	});
 
+	// load orders for specific customer by email
+	app.get('/customerOrders', (req, res) => {
+		orderCollection
+			.find({ email: req.query.email })
+			.toArray((error, documents) => {
+				res.send(documents);
+			});
+	});
+
 	// load all orders from mongoDB
 	app.get('/loadAllOrders', async (req, res) => {
 		try {
@@ -90,6 +99,6 @@ app.get('/', (req, res) => {
 	res.send('Hello delighted pics');
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
 	console.log(`The app listening at http://localhost:${port}`);
 });
