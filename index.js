@@ -10,9 +10,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-// server listening port
-const port = 5000;
-
 // mongodb uri
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.pn1pz.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
@@ -99,6 +96,4 @@ app.get('/', (req, res) => {
 	res.send('Hello delighted pics');
 });
 
-app.listen(process.env.PORT || port, () => {
-	console.log(`The app listening at http://localhost:${port}`);
-});
+app.listen(process.env.PORT || 5000);
