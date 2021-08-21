@@ -22,13 +22,25 @@ const client = new MongoClient(uri, {
 });
 client.connect((err) => {
 	const serviceCollection = client.db('delighted-pics').collection('services');
+	const orderCollection = client.db('delighted-pics').collection('orders');
 
 	// add all services in mongoDB
 	app.post('/addServices', async (req, res) => {
 		try {
 			const data = await req.body;
 			const result = await serviceCollection.insertMany(data);
-			console.log(result);
+			res.send('Successfully added');
+		} catch (error) {
+			console.log('err', error);
+		}
+	});
+
+	// add single order in mongoDB
+	app.post('/order', async (req, res) => {
+		try {
+			const order = await req.body;
+			const result = await orderCollection.insertOne(order);
+			res.send(result.acknowledged);
 		} catch (error) {
 			console.log('err', error);
 		}
@@ -46,7 +58,7 @@ client.connect((err) => {
 		}
 	});
 
-	// load one service from mongoDB
+	// load single service from mongoDB
 	app.get('/loadService/:id', async (req, res) => {
 		try {
 			const service = await serviceCollection
