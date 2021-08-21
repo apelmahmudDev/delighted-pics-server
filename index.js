@@ -36,7 +36,7 @@ client.connect((err) => {
 	});
 
 	// add single order in mongoDB
-	app.post('/order', async (req, res) => {
+	app.post('/addOrder', async (req, res) => {
 		try {
 			const order = await req.body;
 			const result = await orderCollection.insertOne(order);
@@ -66,6 +66,18 @@ client.connect((err) => {
 				.toArray();
 			if (service.length > 0) {
 				res.send(service[0]);
+			}
+		} catch (error) {
+			console.log('err', error);
+		}
+	});
+
+	// load all orders from mongoDB
+	app.get('/loadAllOrders', async (req, res) => {
+		try {
+			const allOrdersArray = await orderCollection.find().toArray();
+			if (allOrdersArray.length > 0) {
+				res.send(allOrdersArray);
 			}
 		} catch (error) {
 			console.log('err', error);
