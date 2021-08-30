@@ -106,6 +106,21 @@ client.connect((err) => {
 		}
 	});
 
+	// update order status
+	app.patch('/updateStatus/:id', async (req, res) => {
+		try {
+			const serviceId = req.params.id;
+			const value = await req.body;
+			const result = await orderCollection.updateOne(
+				{ _id: ObjectId(serviceId) },
+				{ $set: { status: value.value } }
+			);
+			res.sendStatus(200);
+		} catch (error) {
+			console.log('err', error);
+		}
+	});
+
 	// mongodb connected message
 	console.log('database connected');
 });
