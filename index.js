@@ -89,6 +89,24 @@ client.connect((err) => {
 			console.log('err', error);
 		}
 	});
+
+	// delete order from mongoDB
+	app.delete('/delete/:id', async (req, res) => {
+		try {
+			const serviceId = req.params.id;
+			const result = await orderCollection.deleteOne({
+				_id: ObjectId(serviceId),
+			});
+			if (result.deletedCount > 0) {
+				res.send(true);
+			}
+		} catch (error) {
+			console.log('err', error);
+		}
+	});
+
+	// mongodb connected message
+	console.log('database connected');
 });
 
 // root url route
@@ -96,4 +114,6 @@ app.get('/', (req, res) => {
 	res.send('Hello delighted pics');
 });
 
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 5000, () => {
+	console.log('app listening');
+});
