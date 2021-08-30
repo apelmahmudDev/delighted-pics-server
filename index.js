@@ -91,7 +91,7 @@ client.connect((err) => {
 		}
 	});
 
-	// delete order from mongoDB
+	// delete cart-order / ordered-service from mongoDB
 	app.delete('/delete/:id', async (req, res) => {
 		try {
 			const serviceId = req.params.id;
