@@ -1,6 +1,6 @@
 # delighted-pics-server
 
-# [Client live site](https://delighted-pics.web.app/)
+# [Client live site](https://i.imgur.com/flEoqSx.png)
 
 # [Server site](https://fierce-river-40368.herokuapp.com/)
 
